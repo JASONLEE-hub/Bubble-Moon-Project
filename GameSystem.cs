@@ -12,7 +12,6 @@ public class GameSystem : MonoBehaviour
     private Text playerLifeStr;
     [SerializeField]
     private Text moonCountstr;
-    public int moonFullCountInt;
     [SerializeField]
     private Text moonFullCountstr;
     [SerializeField]
@@ -23,25 +22,21 @@ public class GameSystem : MonoBehaviour
     private Text timeText;
     [SerializeField]
     private int stageCount;
-    [SerializeField]
-    private GameObject Results;
-    [SerializeField]
-    private Text resultTimeText;
-    [SerializeField]
-    private Text resultMoonFullText;
-    [SerializeField]
-    private Text resultMoonText;
-    [SerializeField]
-    private Text resultScoreText;
-    [SerializeField]
-    private Text RANKText;
+    public GameObject Play;
+    public GameObject Results;
     public int score;
+    public int moonFullCountInt;
+    public float time;
+    public Text RANKText;
+    public Text resultScoreText;
+    public Text resultMoonText;
+    public Text resultMoonFullText;
+    public Text resultTimeText;
     public GameObject CompassMoonAct;
     public GameObject CompassMoonInAct;
 
     public bool timeBool = true;
 
-    public float time;
     private float nextTime = 0.0f;
 
     private void Start()
@@ -84,18 +79,35 @@ public class GameSystem : MonoBehaviour
         playerLifeStr.text = intlife.ToString();
     }
 
-    public void RESULTS(GameObject RESULTS, int score, int moon,int moonFull ,float time,Text moonText,Text moonFullText , Text scoreText, Text timeText, Text Rank)
+    public void RESULTS(GameObject Play, GameObject RESULTS, int score, int moon, int moonFull , float time, Text Rank, Text scoreText, Text moonText,Text moonFullText , Text timeText)
     {
         timeBool = false;
+        Play.SetActive(false);
         timeText.text = time.ToString();
         moonText.text = moon.ToString();
         moonFullText.text = moonFull.ToString();
         score = score * 1000 + moon * 100;
         scoreText.text = score.ToString();
-        switch{
-
+        if(score >= 500500)
+        {
+            Rank.text = "S";
         }
-        Rank.text = "A";
+        else if(score >= 400500)
+        {
+            Rank.text = "A";
+        }
+        else if(score >= 300500)
+        {
+            Rank.text = "B";
+        }
+        else if(score >= 100500)
+        {
+            Rank.text = "C";
+        }
+        else if(score >= 500)
+        {
+            Rank.text = "D";
+        }
         RESULTS.SetActive(true);
         
     }

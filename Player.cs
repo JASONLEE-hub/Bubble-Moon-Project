@@ -12,13 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float rotateSpeed;
 
-    private float startPoint;
-
-    int moonCount = 0;
+    public int moonCount = 0;
 
     private void Start()
     {
-        startPoint = this.transform.position.y;
     }
 
     private void Awake()
@@ -121,7 +118,7 @@ public class Player : MonoBehaviour
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 Debug.Log("Goal!");
-                //GameSystem.instance.RESULTS(GameSystem.instance.score, moonCount, GameSystem.instance.time);
+                GameSystem.instance.RESULTS(GameSystem.instance.Play,GameSystem.instance.Results,GameSystem.instance.score,moonCount,GameSystem.instance.moonFullCountInt,GameSystem.instance.time,GameSystem.instance.RANKText,GameSystem.instance.resultScoreText,GameSystem.instance.resultMoonText,GameSystem.instance.resultMoonFullText,GameSystem.instance.resultTimeText);
                 // 시간 딜레이
                 StartCoroutine(StageUpD());
             }
