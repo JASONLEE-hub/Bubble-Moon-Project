@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameSystem : MonoBehaviour
 {
+    public static GameSystem instance;
     public int playerLifeInt;
     [SerializeField]
     private Text playerLifeStr;
@@ -22,16 +23,35 @@ public class GameSystem : MonoBehaviour
     private Text timeText;
     [SerializeField]
     private int stageCount;
+    [SerializeField]
+    private GameObject Results;
+    [SerializeField]
+    private Text resultTimeText;
+    [SerializeField]
+    private Text resultMoonFullText;
+    [SerializeField]
+    private Text resultMoonText;
+    [SerializeField]
+    private Text resultScoreText;
+    [SerializeField]
+    private Text RANKText;
+    public int score;
     public GameObject CompassMoonAct;
     public GameObject CompassMoonInAct;
 
     public bool timeBool = true;
 
-    private float time;
+    public float time;
+    private float nextTime = 0.0f;
 
     private void Start()
     {
         moonFullCountstr.text += moonFullCountInt.ToString();
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     private void Update()
@@ -40,9 +60,17 @@ public class GameSystem : MonoBehaviour
         {
             time += Time.deltaTime;
             timeText.text = string.Format("{0:N2}", time);
+            if(Time.time > nextTime)
+            {
+                nextTime = Time.time + 1f;
+                score -= 1;
+                Debug.Log(score);
+            }
         }
 
         playerLifeStr.text = playerLifeInt.ToString();
+
+
     }
 
 
@@ -54,6 +82,22 @@ public class GameSystem : MonoBehaviour
     public void Life(int intlife)
     {
         playerLifeStr.text = intlife.ToString();
+    }
+
+    public void RESULTS(GameObject RESULTS, int score, int moon,int moonFull ,float time,Text moonText,Text moonFullText , Text scoreText, Text timeText, Text Rank)
+    {
+        timeBool = false;
+        timeText.text = time.ToString();
+        moonText.text = moon.ToString();
+        moonFullText.text = moonFull.ToString();
+        score = score * 1000 + moon * 100;
+        scoreText.text = score.ToString();
+        switch{
+
+        }
+        Rank.text = "A";
+        RESULTS.SetActive(true);
+        
     }
 
     public void StageUp()

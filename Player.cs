@@ -12,25 +12,62 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float rotateSpeed;
 
+    private float startPoint;
 
     int moonCount = 0;
 
     private void Start()
     {
-
+        startPoint = this.transform.position.y;
     }
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        rigid.velocity = Vector3.zero;
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        /*if (Input.GetButton("Jump"))
         {
             rigid.AddForce(new Vector3(0, Jump, 0), ForceMode.Impulse);
+
+            if (this.transform.position.y > startPoint)
+            {
+                rigid.AddForce(new Vector3(0, -Jump * 0.9f, 0), ForceMode.Impulse);
+            }
+            if (this.transform.position.y > startPoint * 1.8f)
+            {
+                this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, startPoint, this.transform.position.z), Jump * 0.1f);
+                Debug.Log("good");
+            }
         }
+
+        else if (Input.GetButtonUp("Jump"))
+        {
+            this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, startPoint, this.transform.position.z), Jump * 0.1f);
+        }
+
+        else if (Input.GetButton("Fire1"))
+        {
+            rigid.AddForce(new Vector3(0, -Jump, 0), ForceMode.Impulse);
+
+            if (this.transform.position.y < startPoint)
+            {
+                rigid.AddForce(new Vector3(0, Jump * 0.9f, 0), ForceMode.Impulse);
+            }
+            if (this.transform.position.y < startPoint * 1.8f)
+            {
+                this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, startPoint, this.transform.position.z), Jump * 0.1f);
+                Debug.Log("good");
+            }
+        }
+
+        else if (Input.GetButtonUp("Fire1"))
+        {
+            this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(this.transform.position.x, startPoint, this.transform.position.z), Jump * 0.1f);
+        }*/
     }
 
     private void FixedUpdate()
@@ -62,33 +99,42 @@ public class Player : MonoBehaviour
         if(other.tag == "Moon")
         {
             moonCount++;
-            GameObject.Find("GameSystem").GetComponent<GameSystem>().moonUp(moonCount);
+            GameSystem.instance.moonUp(moonCount);
+            GameSystem.instance.CompassMoonInAct.SetActive(true);
+            GameSystem.instance.CompassMoonAct.SetActive(false);
             other.gameObject.SetActive(false);
             Debug.Log("moonUp!");
+        }
+
+        else if (other.tag == "LifeItem")
+        {
+            GameSystem.instance.playerLifeInt++;
+            other.gameObject.SetActive(false);
         }
 
         else if (other.tag == "Goal")
         {
             if(moonCount == GameObject.Find("GameSystem").GetComponent<GameSystem>().moonFullCountInt)
             {
-                GameObject.Find("GameSystem").GetComponent<GameSystem>().timeBool = false;
+                GameSystem.instance.timeBool = false;
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 Debug.Log("Goal!");
-                Invoke("NOTING", 4f);
-                GameObject.Find("GameSystem").GetComponent<GameSystem>().StageUp();
+                //GameSystem.instance.RESULTS(GameSystem.instance.score, moonCount, GameSystem.instance.time);
+                // 시간 딜레이
+                StartCoroutine(StageUpD());
             }
         }
 
         else if (other.tag == "Trigger")
         {
-            GameObject.Find("GameSystem").GetComponent<GameSystem>().CompassMoonInAct.SetActive(false);
-            GameObject.Find("GameSystem").GetComponent<GameSystem>().CompassMoonAct.SetActive(true);
+            GameSystem.instance.CompassMoonInAct.SetActive(false);
+            GameSystem.instance.CompassMoonAct.SetActive(true);
         }
         else if (other.tag == "GoalTrigger")
         {
-            if(moonCount != GameObject.Find("GameSystem").GetComponent<GameSystem>().moonFullCountInt)
+            if(moonCount != GameSystem.instance.moonFullCountInt)
             rigid.AddForce(new Vector3(0,0,-100f),ForceMode.Impulse);
         }
     }
@@ -97,8 +143,8 @@ public class Player : MonoBehaviour
     {
         if(other.tag == "Trigger")
         {
-            GameObject.Find("GameSystem").GetComponent<GameSystem>().CompassMoonInAct.SetActive(true);
-            GameObject.Find("GameSystem").GetComponent<GameSystem>().CompassMoonAct.SetActive(false);
+            GameSystem.instance.CompassMoonInAct.SetActive(true);
+            GameSystem.instance.CompassMoonAct.SetActive(false);
         }
     }
 
@@ -108,9 +154,10 @@ public class Player : MonoBehaviour
         Debug.Log("UseGravity");
     }
 
-    public void NOTING()
+    IEnumerator StageUpD()
     {
-        Debug.Log("NOTING!");
+        yield return new WaitForSeconds(40f);
+        GameSystem.instance.StageUp();
     }
 
 }
