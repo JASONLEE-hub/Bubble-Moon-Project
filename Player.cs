@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float rotateSpeed;
 
+    [SerializeField]
+    private GameObject Effect;
+
     public int moonCount = 0;
 
     private void Start()
@@ -114,6 +117,7 @@ public class Player : MonoBehaviour
             if(moonCount == GameObject.Find("GameSystem").GetComponent<GameSystem>().moonFullCountInt)
             {
                 GameSystem.instance.timeBool = false;
+                Effect.SetActive(true);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
@@ -132,7 +136,10 @@ public class Player : MonoBehaviour
         else if (other.tag == "GoalTrigger")
         {
             if(moonCount != GameSystem.instance.moonFullCountInt)
-            rigid.AddForce(new Vector3(0,0,-100f),ForceMode.Impulse);
+            {
+                rigid.velocity = Vector3.zero;
+                rigid.AddForce(new Vector3(0, 0, -70f), ForceMode.Impulse);
+            }
         }
     }
 
@@ -153,7 +160,7 @@ public class Player : MonoBehaviour
 
     IEnumerator StageUpD()
     {
-        yield return new WaitForSeconds(40f);
+        yield return new WaitForSeconds(10f);
         GameSystem.instance.StageUp();
     }
 

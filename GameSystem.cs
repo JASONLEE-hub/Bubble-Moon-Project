@@ -88,25 +88,29 @@ public class GameSystem : MonoBehaviour
         moonFullText.text = moonFull.ToString();
         score = score * 1000 + moon * 100;
         scoreText.text = score.ToString();
-        if(score >= 500500)
+        if(score >= 540500)
         {
             Rank.text = "S";
         }
-        else if(score >= 400500)
+        else if(score >= 500500)
         {
             Rank.text = "A";
         }
-        else if(score >= 300500)
+        else if(score >= 400500)
         {
             Rank.text = "B";
         }
-        else if(score >= 100500)
+        else if(score >= 200500)
         {
             Rank.text = "C";
         }
-        else if(score >= 500)
+        else if(score >= 100500)
         {
             Rank.text = "D";
+        }
+        else if (score >= 500)
+        {
+            Rank.text = "F";
         }
         RESULTS.SetActive(true);
         
