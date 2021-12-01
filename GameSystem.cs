@@ -33,6 +33,7 @@ public class GameSystem : MonoBehaviour
     public Text resultTimeText;
     public GameObject CompassMoonAct;
     public GameObject CompassMoonInAct;
+    public GameObject BGM;
 
     public bool timeBool = true;
 

@@ -28,10 +28,9 @@ public class Map : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("lifeDown");
+            SoundManager.instance.SFXPlay("Dead", deadSound);
             Player.SetActive(false);
             Explosion.SetActive(true);
-            SoundManager.instance.SFXPlay("Dead", deadSound);
             GameObject.Find("Explosion").GetComponent<Explosion>().Explode();
             StartCoroutine(ReDelay(Player, Explosion));
         }

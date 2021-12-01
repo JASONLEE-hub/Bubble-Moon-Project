@@ -135,6 +135,7 @@ public class Player : MonoBehaviour
             {
                 GameSystem.instance.Goal.transform.Find("Effect").gameObject.SetActive(false);
                 GameSystem.instance.timeBool = false;
+                GameSystem.instance.BGM.SetActive(false);
                 SoundManager.instance.SFXPlay("Goal", goalSound);
                 Effect.SetActive(true);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
@@ -187,7 +188,7 @@ public class Player : MonoBehaviour
 
     IEnumerator StageUpD()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(9f);
         GameSystem.instance.StageUp();
     }
 
