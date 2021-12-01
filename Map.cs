@@ -12,6 +12,8 @@ public class Map : MonoBehaviour
 
     private Vector3 SpawnPosition;
 
+    public AudioClip deadSound;
+
     private void Start()
     {
         SpawnPosition = Player.GetComponent<Transform>().position;
@@ -26,10 +28,10 @@ public class Map : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("이건 되는데");
             Debug.Log("lifeDown");
             Player.SetActive(false);
             Explosion.SetActive(true);
+            SoundManager.instance.SFXPlay("Dead", deadSound);
             GameObject.Find("Explosion").GetComponent<Explosion>().Explode();
             StartCoroutine(ReDelay(Player, Explosion));
         }

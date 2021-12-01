@@ -17,6 +17,8 @@ public class UpButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
 
     public bool isTouch = false;
 
+    public AudioClip clip;
+
     void Start()
     {
         startPoint = up_Player.transform.position.y;
@@ -53,6 +55,7 @@ public class UpButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         isTouch = true;
+        SoundManager.instance.SFXPlay("Jump", clip);
     }
 
     public void OnPointerUp(PointerEventData eventData)

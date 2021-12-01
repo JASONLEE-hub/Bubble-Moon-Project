@@ -16,8 +16,7 @@ public class GameSystem : MonoBehaviour
     private Text moonFullCountstr;
     [SerializeField]
     private GameObject Player;
-    [SerializeField]
-    private GameObject Moon;
+    public GameObject Goal;
     [SerializeField]
     private Text timeText;
     [SerializeField]

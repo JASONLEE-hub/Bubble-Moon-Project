@@ -17,6 +17,16 @@ public class Player : MonoBehaviour
 
     public int moonCount = 0;
 
+    public AudioClip moonSound;
+
+    public AudioClip intoWater;
+
+    public AudioClip goalSound;
+
+    public AudioClip lifeSound;
+
+    public AudioClip closeMagicSound;
+
     private void Start()
     {
     }
@@ -94,6 +104,7 @@ public class Player : MonoBehaviour
             this.transform.position = SpawnPosition;*/
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Moon")
@@ -103,12 +114,18 @@ public class Player : MonoBehaviour
             GameSystem.instance.CompassMoonInAct.SetActive(true);
             GameSystem.instance.CompassMoonAct.SetActive(false);
             other.gameObject.SetActive(false);
+            SoundManager.instance.SFXPlay("Moon", moonSound);
             Debug.Log("moonUp!");
+            if(moonCount == GameObject.Find("GameSystem").GetComponent<GameSystem>().moonFullCountInt)
+            {
+                GameSystem.instance.Goal.transform.Find("Effect").gameObject.SetActive(true);
+            }
         }
 
         else if (other.tag == "LifeItem")
         {
             GameSystem.instance.playerLifeInt++;
+            SoundManager.instance.SFXPlay("Life", lifeSound);
             other.gameObject.SetActive(false);
         }
 
@@ -116,7 +133,9 @@ public class Player : MonoBehaviour
         {
             if(moonCount == GameObject.Find("GameSystem").GetComponent<GameSystem>().moonFullCountInt)
             {
+                GameSystem.instance.Goal.transform.Find("Effect").gameObject.SetActive(false);
                 GameSystem.instance.timeBool = false;
+                SoundManager.instance.SFXPlay("Goal", goalSound);
                 Effect.SetActive(true);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
                 rigid.AddForce(new Vector3(0, 500, 0), ForceMode.Impulse);
@@ -130,6 +149,7 @@ public class Player : MonoBehaviour
 
         else if (other.tag == "Trigger")
         {
+            other.transform.Find("Sound").gameObject.SetActive(true);
             GameSystem.instance.CompassMoonInAct.SetActive(false);
             GameSystem.instance.CompassMoonAct.SetActive(true);
         }
@@ -137,9 +157,15 @@ public class Player : MonoBehaviour
         {
             if(moonCount != GameSystem.instance.moonFullCountInt)
             {
+                SoundManager.instance.SFXPlay("Stop!", closeMagicSound);
                 rigid.velocity = Vector3.zero;
                 rigid.AddForce(new Vector3(0, 0, -70f), ForceMode.Impulse);
             }
+        }
+        else if (other.tag == "Water")
+        {
+            Debug.Log("into the water");
+            SoundManager.instance.SFXPlay("intoWater", intoWater);
         }
     }
 
@@ -147,6 +173,7 @@ public class Player : MonoBehaviour
     {
         if(other.tag == "Trigger")
         {
+            other.transform.Find("Sound").gameObject.SetActive(false);
             GameSystem.instance.CompassMoonInAct.SetActive(true);
             GameSystem.instance.CompassMoonAct.SetActive(false);
         }
