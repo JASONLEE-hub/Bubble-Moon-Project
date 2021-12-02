@@ -32,6 +32,23 @@ public class DownButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
+        //------------------------------------------------------------------------
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            isTouch = true;
+            SoundManager.instance.SFXPlay("Jump", clip);
+        }
+
+        else if (Input.GetButtonUp("Fire2"))
+        {
+            isTouch = false;
+            rigid.AddForce(new Vector3(0, down_Speed, 0), ForceMode.Impulse);
+            down_Player.transform.position = Vector3.MoveTowards(down_Player.transform.position, new Vector3(down_Player.transform.position.x, startPoint, down_Player.transform.position.z), down_Speed * 0.1f);
+        }
+
+        //------------------------------------------------------------------------
+
         if (isTouch)
         {
             rigid.AddForce(new Vector3(0, -down_Speed, 0), ForceMode.Impulse);
@@ -40,12 +57,13 @@ public class DownButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
             {
                 rigid.AddForce(new Vector3(0, down_Speed * 0.9f, 0), ForceMode.Impulse);
             }
-            if (down_Player.transform.position.y < startPoint * -1.4f)
+            /*if (down_Player.transform.position.y < 2f)
             {
                 down_Player.transform.position = Vector3.MoveTowards(down_Player.transform.position, new Vector3(down_Player.transform.position.x, startPoint, down_Player.transform.position.z), down_Speed * 0.1f);
-            }
+            }*/ // 고민중 ,, 
 
         }
+
         else if (!GameObject.Find("Joy_Up").GetComponent<UpButton>().isTouch && down_Player.transform.position.y != startPoint)
         {
             down_Player.transform.position = Vector3.MoveTowards(down_Player.transform.position, new Vector3(down_Player.transform.position.x, startPoint, down_Player.transform.position.z), down_Speed * 0.1f);
@@ -55,14 +73,18 @@ public class DownButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        /*
         isTouch = true;
         SoundManager.instance.SFXPlay("Jump", clip);
+        */
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        /*
         isTouch = false;
         rigid.AddForce(new Vector3(0, down_Speed, 0), ForceMode.Impulse);
         down_Player.transform.position = Vector3.MoveTowards(down_Player.transform.position, new Vector3(down_Player.transform.position.x, startPoint, down_Player.transform.position.z), down_Speed * 0.1f);
+        */
     }
 }

@@ -31,6 +31,24 @@ public class UpButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
+        //------------------------------------------------------------------------
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Debug.Log("이게 된다?");
+            isTouch = true;
+            SoundManager.instance.SFXPlay("Jump", clip);
+        }
+
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            isTouch = false;
+            rigid.AddForce(new Vector3(0, -up_Speed, 0), ForceMode.Impulse);
+            up_Player.transform.position = Vector3.MoveTowards(up_Player.transform.position, new Vector3(up_Player.transform.position.x, startPoint, up_Player.transform.position.z), up_Speed * 0.1f);
+        }
+
+        //------------------------------------------------------------------------
+
         if (isTouch)
         {
             rigid.AddForce(new Vector3(0, up_Speed, 0), ForceMode.Impulse);
@@ -45,23 +63,28 @@ public class UpButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
                 Debug.Log("good");
             }
         }
+
         else if (!GameObject.Find("Joy_Down").GetComponent<DownButton>().isTouch && up_Player.transform.position.y != startPoint)
         {
             up_Player.transform.position = Vector3.MoveTowards(up_Player.transform.position, new Vector3(up_Player.transform.position.x, startPoint, up_Player.transform.position.z), up_Speed*0.1f);
         }
 
     }
-
+    
     public void OnPointerDown(PointerEventData eventData)
     {
+        /*
         isTouch = true;
         SoundManager.instance.SFXPlay("Jump", clip);
+        */
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        /*
         isTouch = false;
         rigid.AddForce(new Vector3(0, -up_Speed, 0), ForceMode.Impulse);
         up_Player.transform.position = Vector3.MoveTowards(up_Player.transform.position, new Vector3(up_Player.transform.position.x, startPoint, up_Player.transform.position.z), up_Speed * 0.1f);
+        */
     }
 }

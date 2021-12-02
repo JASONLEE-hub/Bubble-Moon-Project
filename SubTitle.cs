@@ -10,9 +10,9 @@ public class SubTitle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
-            for(int i = 0;  i < key.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
                 if (key[i] != null)
                 {
@@ -34,6 +34,5 @@ public class SubTitle : MonoBehaviour
                 }
             }
         }
-
     }*/
 }
