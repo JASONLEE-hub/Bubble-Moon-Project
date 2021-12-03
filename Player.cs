@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        rigid.AddForce(new Vector3(h*0.3f, 0, v*0.3f), ForceMode.Impulse);
+        rigid.AddForce(new Vector3(h*0.2f, 0, v*0.2f), ForceMode.Impulse);
         transform.Rotate(Vector3.down * rotateSpeed * Time.deltaTime, Space.World);
     }
 

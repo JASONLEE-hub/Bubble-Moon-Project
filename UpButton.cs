@@ -33,14 +33,14 @@ public class UpButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
     {
         //------------------------------------------------------------------------
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Debug.Log("이게 된다?");
             isTouch = true;
             SoundManager.instance.SFXPlay("Jump", clip);
         }
 
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isTouch = false;
             rigid.AddForce(new Vector3(0, -up_Speed, 0), ForceMode.Impulse);

@@ -57,7 +57,7 @@ public class DownButton : MonoBehaviour , IPointerDownHandler, IPointerUpHandler
             {
                 rigid.AddForce(new Vector3(0, down_Speed * 0.9f, 0), ForceMode.Impulse);
             }
-            /*if (down_Player.transform.position.y < 2f)
+            /*if (down_Player.transform.position.y < 1.7f)
             {
                 down_Player.transform.position = Vector3.MoveTowards(down_Player.transform.position, new Vector3(down_Player.transform.position.x, startPoint, down_Player.transform.position.z), down_Speed * 0.1f);
             }*/ // 고민중 ,, 
